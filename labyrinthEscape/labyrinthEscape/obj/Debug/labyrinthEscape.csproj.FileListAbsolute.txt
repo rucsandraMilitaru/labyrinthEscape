@@ -1,0 +1,14 @@
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\bin\Debug\labyrinthEscape.exe.config
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\bin\Debug\labyrinthEscape.exe
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\bin\Debug\labyrinthEscape.pdb
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.csproj.AssemblyReference.cache
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.login.resources
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.Properties.Resources.resources
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.csproj.GenerateResource.cache
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.csproj.CoreCompileInputs.cache
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.exe
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.pdb
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.exe.config
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\bin\Debug\Database.mdf
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\bin\Debug\Database_log.ldf
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.game.resources
