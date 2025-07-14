@@ -12,3 +12,4 @@ D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.ex
 D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\bin\Debug\Database.mdf
 D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\bin\Debug\Database_log.ldf
 D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.game.resources
+D:\C#_projects_2025\labyrinthEscape\labyrinthEscape\obj\Debug\labyrinthEscape.createAccount.resources
