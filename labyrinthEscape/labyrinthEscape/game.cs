@@ -110,6 +110,7 @@ namespace labyrinthEscape
             }
 
             int gameNumber = Convert.ToInt32(comboBox1.SelectedItem.ToString());
+            // TODO: CHANGE TO => int gameNumber = menu.game; 
             if (gameNumber == 1)
             {
                 filename = "level0lab01";
@@ -314,6 +315,8 @@ namespace labyrinthEscape
 
                     //break;
                     timer1.Stop();
+
+
 
 
                 }
