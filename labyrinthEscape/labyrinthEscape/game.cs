@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace labyrinthEscape
 {
     public partial class game : Form
     {
+        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=" + Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Database.mdf;Integrated Security=True");
         Button[,] b = new Button[20, 20];// button array
         int[,] a = new int[20, 20];// normal array
         int[,] c = new int[20, 20];// regions array
@@ -48,7 +50,9 @@ namespace labyrinthEscape
 
         string filename = "";
 
-        public static string user = login.user;
+        // public static string user = login.user;
+        public static string user = "rucsi";
+        int gameNumber;
 
         public game()
         {
@@ -57,7 +61,21 @@ namespace labyrinthEscape
 
         private void game_Load(object sender, EventArgs e)
         {
-            startTime = DateTime.Now.ToString("hh:mm:ss");            
+            startTime = DateTime.Now.ToString("hh:mm:ss");
+
+            if (user != null)
+            {
+                textBox1.Text = user.ToString();
+            }
+            else
+            {
+                textBox1.Text = "rucsi";
+            }
+            textBox1.Enabled = false;
+
+            label1.Text = "";
+            label2.Text = "";
+
         }
 
         private void game_KeyDown(object sender, KeyEventArgs e)
@@ -109,63 +127,14 @@ namespace labyrinthEscape
                 filename = "level0lab01";
             }
 
-            int gameNumber = Convert.ToInt32(comboBox1.SelectedItem.ToString());
+            gameNumber = Convert.ToInt32(comboBox1.SelectedItem.ToString());
             // TODO: CHANGE TO => int gameNumber = menu.game; 
-            if (gameNumber == 1)
+            if(gameNumber >= 1 && gameNumber <= 9)
             {
-                filename = "level0lab01";
-            }
-            else if (gameNumber == 2)
+                filename = "level0lab0" + gameNumber;
+            } else
             {
-                filename = "level0lab02";
-            }
-            else if (gameNumber == 3)
-            {
-                filename = "level0lab03";
-            }
-            else if (gameNumber == 4)
-            {
-                filename = "level0lab04";
-            }
-            else if (gameNumber == 5)
-            {
-                filename = "level0lab05";
-            }
-            else if (gameNumber == 6)
-            {
-                filename = "level0lab06";
-            }
-            else if (gameNumber == 7)
-            {
-                filename = "level0lab07";
-            }
-            else if (gameNumber == 8)
-            {
-                filename = "level0lab08";
-            }
-            else if (gameNumber == 9)
-            {
-                filename = "level0lab09";
-            }
-            else if (gameNumber == 10)
-            {
-                filename = "level0lab10";
-            }
-            else if (gameNumber == 11)
-            {
-                filename = "level0lab11";
-            }
-            else if (gameNumber == 12)
-            {
-                filename = "level0lab12";
-            }
-            else if (gameNumber == 13)
-            {
-                filename = "level0lab13";
-            }
-            else if (gameNumber == 14)
-            {
-                filename = "level0lab14";
+                filename = "level0lab" + gameNumber;
             }
 
             matrix();
@@ -176,17 +145,6 @@ namespace labyrinthEscape
             comboBox1.Enabled = false;
             comboBox1.Visible = false;
             button1.Enabled = false;
-
-            textBox1.Enabled = false;
-
-            if (user != null)
-            {
-                textBox1.Text = user.ToString();
-            }
-            else
-            {
-                textBox1.Text = "user 2.0";
-            }
 
             stillPlaying = true;
             startTime = DateTime.Now.ToString("hh:mm:ss");
@@ -245,11 +203,6 @@ namespace labyrinthEscape
                     {
                         b[i, j].BackColor = Color.DarkGreen;
                     }
-                    /*
-                    else
-                    {
-                        b[i, j].BackColor = Color.DimGray;
-                    }*/
                 }
             }
 
@@ -283,22 +236,15 @@ namespace labyrinthEscape
                 else
                 {
                     b[row, col].BackColor = Color.DarkGoldenrod;
-                    //b[i_finish[k], j_finish[k]].BackColor = colorsTeleportingSpots[k];
                     b[i_finish[k], j_finish[k]].BackColor = Color.Crimson;
                 }
 
                 if (row == i_finish[k] && col == j_finish[k])
                 {
+                    queryEndGame();
+
                     b[row, col].BackColor = Color.DimGray;
                     endOfGame();
-
-                    //b[row, col].BackColor = Color.DimGray;
-                    /*
-                    for (int i = 0; i < countSpots; i++)
-                    {
-                        b[x1_coordinates[i], y1_coordinates[i]].BackColor = Color.DimGray;
-                        b[x2_coordinates[i], y2_coordinates[i]].BackColor = Color.DimGray;
-                    }*/
 
                     for (int i = 0; i < n; i++)
                     {
@@ -307,18 +253,14 @@ namespace labyrinthEscape
                             b[i, j].BackColor = Color.DimGray;
                         }
                     }
+
                     button1.Visible = true;
                     comboBox1.Visible = true;
                     comboBox1.Enabled = true;
 
                     clearLabyrinth();
 
-                    //break;
                     timer1.Stop();
-
-
-
-
                 }
 
             }
@@ -353,7 +295,7 @@ namespace labyrinthEscape
             {
                 label1.Text = hours + " hours, " + minutes + " minutes and " + seconds + " seconds";
             }
-            label2.Text = "Number of moves : " + moves;
+            label2.Text = moves.ToString();
 
         }
 
@@ -367,7 +309,7 @@ namespace labyrinthEscape
 
                     button.Width = 50;
                     button.Height = 50;
-                    button.Text = i + "," + j;
+                    //button.Text = i + "," + j;
                     button.Font = new Font("Nirmala UI", 8);
                     button.FlatStyle = FlatStyle.Flat;
                     button.Enabled = false;
@@ -380,6 +322,33 @@ namespace labyrinthEscape
             }
 
         }
+
+        private void queryEndGame()
+        {
+            int userId = 0;
+
+            con.Open();
+            string select1 = "SELECT Id FROM users WHERE username=@u";
+            SqlCommand cmd1 = new SqlCommand(select1, con);
+            cmd1.Parameters.AddWithValue("@u", textBox1.Text);
+            SqlDataReader r1 = cmd1.ExecuteReader();
+            while (r1.Read())
+            {
+                userId = Convert.ToInt32(r1[0]);
+            }
+            r1.Close();
+
+            string insert = "INSERT INTO playedGames(id_game, id_user, moves, time) VALUES(@id_game, @id_user, @moves, @time)";
+            SqlCommand cmd = new SqlCommand(insert, con);
+            cmd.Parameters.AddWithValue("@id_game", gameNumber);
+            cmd.Parameters.AddWithValue("@id_user", userId);
+            cmd.Parameters.AddWithValue("@moves", Convert.ToInt32(label2.Text));
+            cmd.Parameters.AddWithValue("@time", label1.Text);
+            cmd.ExecuteNonQuery();
+            con.Close();
+            
+        }
+
         private void labyrinth()
         {
             for (int i = 0; i < n; i++)
@@ -438,14 +407,14 @@ namespace labyrinthEscape
                         {
                             string[] v1 = v[i].Split(' ');//10,0 10,9
 
-                            //teleporting START spot
+                            //teleporting start spot
                             string[] v2 = v1[0].Split(',');//10,0
                             x1_coordinates[i] = Convert.ToInt32(v2[0].ToString());
                             y1_coordinates[i] = Convert.ToInt32(v2[1].ToString());
 
                             c[x1_coordinates[i], y1_coordinates[i]] = 3;
 
-                            //teleporting END spot
+                            //teleporting end spot
                             v2 = v1[1].Split(',');//10,9
                             x2_coordinates[i] = Convert.ToInt32(v2[0].ToString());
                             y2_coordinates[i] = Convert.ToInt32(v2[1].ToString());
@@ -485,18 +454,24 @@ namespace labyrinthEscape
                         c[i, j] = 2;
                     }
                 }
-            }
 
+                button1.Enabled = true;
+            }
         }
 
         private void clearLabyrinth()
         {
-
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < m; j++)
                 {
-                    b[i, j] = null;
+                    if (b[i, j] != null)
+                    {
+                        this.Controls.Remove(b[i, j]);//
+                        b[i, j].Dispose();//
+                        b[i, j] = null;
+                    }
+
                     a[i, j] = 0;
                     c[i, j] = 0;
                 }
@@ -506,11 +481,14 @@ namespace labyrinthEscape
             countEnds = 0;
             countSpots = 0;
             label1.Text = "";
+            label2.Text = "";
+            stillPlaying = true;
 
-
+            row = 0;
+            col = 0;
+            dr = st = sus = jos = false;
         }
-
-
-
     }
+
+
 }

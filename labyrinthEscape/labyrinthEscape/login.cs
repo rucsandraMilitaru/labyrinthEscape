@@ -76,7 +76,7 @@ namespace labyrinthEscape
             {
                 user = textBox1.Text;
 
-                menu f2 = new menu();
+                game f2 = new game();
                 f2.Show();
 
                 ok1 = false;
